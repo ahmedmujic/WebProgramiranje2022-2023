@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const { Posts } = require("../models")
 const { validationResult, body } = require("express-validator")
+const { validateToken } = require("../middlewares/auth-middleware")
 const { createPostValidator } = require("../validators/posts")
 
 router.get("/", async (req, res) => {
@@ -9,10 +10,10 @@ router.get("/", async (req, res) => {
     res.json(posts);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateToken, async (req, res) => {
     const id = req.params.id;
     const post = await Posts.findByPk(id);
-    res.json(post);
+    res.json(post ?? {});
 });
 
 router.post("/", createPostValidator, async (req, res) => {
