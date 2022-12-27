@@ -18,12 +18,14 @@ router.get("/:id", validateToken, async (req, res) => {
 
 router.post("/", createPostValidator, async (req, res) => {
     const errors = validationResult(req);
+    const user = req.user;
 
     if (!errors.isEmpty()) {
         return res.status(400).json(errors);
     }
 
     const body = req.body;
+    body.authorId = user.id;
     await Posts.create(body);
     res.status(201).json();
 })
