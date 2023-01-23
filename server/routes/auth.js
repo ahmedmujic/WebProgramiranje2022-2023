@@ -19,7 +19,8 @@ router.post("/register", createUserValidator, async (req, res) => {
 
     await Users.create({
         username: username,
-        password: hash
+        password: hash,
+        roleId: 2
     });
     return res.status(201).json();
 });

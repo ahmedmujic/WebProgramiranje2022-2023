@@ -8,7 +8,6 @@ function Nav() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(authState)
     }, [authState])
 
     const logout = () => {
@@ -43,7 +42,7 @@ function Nav() {
                                             <Link className="nav-link active" aria-current="page" to="/profile">Profile</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link className="nav-link active" aria-current="page" to="/posts">Posts</Link>
+                                            <Link className="nav-link active" aria-current="page" to="/my-posts">My Posts</Link>
                                         </li>
                                         <li className="nav-item">
                                             <button onClick={logout} className="btn btn-primary">Logout</button>

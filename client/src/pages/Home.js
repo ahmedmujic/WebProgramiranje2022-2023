@@ -1,18 +1,36 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../helpers/AuthContext";
+import { useEffect, useState } from "react";
+import PostCard from '../components/PostCard';
+import axios from "axios"
 
 function Home() {
-  const {authState} = useContext(AuthContext);
+  const [postsState, setPostsState] = useState([]);
 
-  useEffect(()=> {
-    console.log(authState)
-  })
+  useEffect(() => {
+    fetchPosts()
+  }, [])
 
-    return (
-      <div >
-        test
-      </div>
-    );
+  const fetchPosts = () => {
+    axios.get("http://localhost:3001/api/posts/all", {
+      headers: {
+        'access-token': `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    })
+      .then(response => {
+        setPostsState(response.data)
+      })
   }
 
-  export default Home;
+  return (
+    <div className="container">
+      <div className="row">
+        {postsState.map(data => {
+          return (
+            <PostCard key={data.id} title={data.title} text={data.text} />
+          )
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default Home;

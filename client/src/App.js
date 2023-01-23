@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Registration from "./pages/Registration";
 import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login";
-import Posts from "./pages/Posts";
+import MyPosts from "./pages/MyPosts";
 import Profile from "./pages/Profile"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -47,7 +47,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/posts" element={<Posts />} />
+            <Route path="/my-posts" element={<MyPosts />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

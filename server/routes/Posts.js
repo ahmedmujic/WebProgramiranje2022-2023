@@ -1,11 +1,17 @@
 const express = require("express")
 const router = express.Router()
-const { Posts } = require("../models")
+const { Posts, Users } = require("../models")
 const { validationResult } = require("express-validator")
 const { authMiddleware } = require("../middlewares/auth-middleware")
+const { adminMiddleware } = require("../middlewares/admin-middleware")
 const { createPostValidator } = require("../validators/posts")
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
+    const posts = await Posts.findAll({include: Users, where: {authorId: req.user.id}});
+    res.json(posts);
+});
+
+router.get("/all", adminMiddleware, async (req, res) => {
     const posts = await Posts.findAll();
     res.json(posts);
 });
@@ -23,8 +29,6 @@ router.post("/", authMiddleware, createPostValidator, async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json(errors);
     }
-
-    console.log(user)
 
     const body = req.body;
     body.authorId = user.id;
